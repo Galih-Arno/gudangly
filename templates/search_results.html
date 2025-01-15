@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Hasil Pencarian</h2>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nama Barang</th>
+                <th>Kategori</th>
+                <th>Stok</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if items %}
+                {% for item in items %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.nama_barang }}</td>
+                    <td>{{ item.kategori }}</td>
+                    <td>{{ item.stok }}</td>
+                    <td>
+                        <a href="/edit/{{ item.id }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="/delete/{{ item.id }}" class="btn btn-danger btn-sm">Hapus</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr><td colspan="5" class="text-center">Barang tidak ditemukan</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
