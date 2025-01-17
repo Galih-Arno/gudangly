@@ -78,3 +78,7 @@ proyek_inventory/
 - Tambahkan fitur untuk **info**, **tambah**, **hapus**, dan **edit**.
 - Ubah Navbar **cari barang** menjadi **search button**.
 - Buat **Pagination** jika daftar barangnya ada banyak.
+
+
+## Lisensi
+Proyek ini dilisensikan di bawah **MIT License** - lihat file [LICENSE](LICENSE) untuk detail lebih lanjut.
