@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2 class="text-center mb-4">Daftar Inventaris</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-center">Daftar Inventaris</h2>
+    <!-- Tombol Tambah Barang -->
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">
+        Tambah Barang
+    </button>
+</div>
 <div class="table-responsive">
     <table class="table table-hover table-bordered">
         <thead class="thead-dark">
@@ -23,10 +29,105 @@
                 <td>
                     <a href="/edit/{{ item.id }}" class="btn btn-warning btn-sm">Edit</a>
                     <a href="/delete/{{ item.id }}" class="btn btn-danger btn-sm">Hapus</a>
+                    
+                    <!-- Tombol Info -->
+                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ item.id }}">
+                        Info
+                    </button>
                 </td>
             </tr>
+            <!-- Modal untuk informasi barang -->
+            <div class="modal fade" id="infoModal{{ item.id }}" tabindex="-1" aria-labelledby="infoModalLabel{{ item.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="infoModalLabel{{ item.id }}">Detail Barang</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Nama Barang:</strong> {{ item.nama_barang }}</p>
+                            <p><strong>Kategori:</strong> {{ item.kategori }}</p>
+                            <p><strong>Stok:</strong> {{ item.stok }}</p>
+                            <p><strong>Harga:</strong> Rp {{ item.harga }}</p>
+                            <p><strong>Deskripsi:</strong> {{ item.deskripsi }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
         </tbody>
     </table>
+</div>
+<!-- Modal Tambah Barang -->
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="addItemModalLabel">Tambah Barang Baru</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/add" method="POST">
+                    <div class="mb-3">
+                        <label for="nama_barang" class="form-label">Nama Barang</label>
+                        <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Masukkan nama barang" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="kategori" class="form-label">Kategori</label>
+                        <input type="text" class="form-control" id="kategori" name="kategori" placeholder="Masukkan kategori barang" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stok" class="form-label">Stok</label>
+                        <input type="number" class="form-control" id="stok" name="stok" placeholder="Masukkan jumlah stok" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="harga" class="form-label">Harga</label>
+                        <input type="number" class="form-control" id="harga" name="harga" placeholder="Masukkan harga barang" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deskripsi" class="form-label">Deskripsi</label>
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Masukkan deskripsi barang (opsional)"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Tambah Barang</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Pagination -->
+<div class="d-flex justify-content-center">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% if pagination.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('index', page=pagination.prev_num) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% for page_num in pagination.pages %}
+                {% if page_num %}
+                    <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('index', page=page_num) }}">{{ page_num }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                {% endif %}
+            {% endfor %}
+            {% if pagination.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('index', page=pagination.next_num) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 </div>
 {% endblock %}

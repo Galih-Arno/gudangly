@@ -34,7 +34,7 @@ semoga terkoneksi dengan baik.
 db_connection = mysql.connector.connect(
     host="localhost",  # Ganti dengan host MySQL Anda jika diperlukan
     user="root",       # Ganti dengan username MySQL Anda
-    password="password kalian",       # Ganti dengan password MySQL Anda
+    password="1234",       # Ganti dengan password MySQL Anda
 )
 
 cursor = db_connection.cursor()
