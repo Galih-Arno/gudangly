@@ -26,6 +26,8 @@ Setelah berhasil mengatur ulang password, jalankan perintah untuk memperbarui ha
 
 Keluar dari sesi MySQL dengan perintah:
 EXIT;
+
+semoga terkoneksi dengan baik.
 """
 
 # Membuat koneksi ke MySQL
