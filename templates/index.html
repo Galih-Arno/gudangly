@@ -27,15 +27,104 @@
                 <td>{{ item.kategori }}</td>
                 <td>{{ item.stok }}</td>
                 <td>
-                    <a href="/edit/{{ item.id }}" class="btn btn-warning btn-sm">Edit</a>
+                    <!-- Tombol Edit -->
+                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ item.id }}">
+                        Edit
+                    </button>
                     <a href="/delete/{{ item.id }}" class="btn btn-danger btn-sm">Hapus</a>
-                    
                     <!-- Tombol Info -->
                     <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ item.id }}">
                         Info
                     </button>
                 </td>
             </tr>
+            
+            <!-- Modal untuk edit barang -->
+            <div class="modal fade" id="editModal{{ item.id }}" tabindex="-1" aria-labelledby="editModalLabel{{ item.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning text-white">
+                            <h5 class="modal-title" id="editModalLabel{{ item.id }}">Edit Barang</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/edit/{{ item.id }}" method="POST">
+                                <!-- Input Nama Barang -->
+                                <div class="mb-3">
+                                    <label for="nama_barang_{{ item.id }}" class="form-label">Nama Barang</label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="nama_barang_{{ item.id }}" 
+                                        name="nama_barang" 
+                                        value="{{ item.nama_barang }}" 
+                                        required
+                                    >
+                                </div>
+                                <!-- Input Kategori -->
+                                <div class="mb-3">
+                                    <label for="kategori_{{ item.id }}" class="form-label">Kategori</label>
+                                    <select 
+                                        class="form-select" 
+                                        id="kategori_{{ item.id }}" 
+                                        name="kategori" 
+                                        required
+                                    >
+                                        <option value="Elektronik" {% if item.kategori == 'Elektronik' %}selected{% endif %}>Elektronik</option>
+                                        <option value="Pakaian" {% if item.kategori == 'Pakaian' %}selected{% endif %}>Pakaian</option>
+                                        <option value="Makanan" {% if item.kategori == 'Makanan' %}selected{% endif %}>Makanan</option>
+                                        <option value="Lainnya" {% if item.kategori == 'Lainnya' %}selected{% endif %}>Lainnya</option>
+                                    </select>
+                                </div>
+                                <!-- Input Stok -->
+                                <div class="mb-3">
+                                    <label for="stok_{{ item.id }}" class="form-label">Stok</label>
+                                    <input 
+                                        type="number" 
+                                        class="form-control" 
+                                        id="stok_{{ item.id }}" 
+                                        name="stok" 
+                                        value="{{ item.stok }}" 
+                                        required
+                                    >
+                                </div>
+                                <!-- Input Harga -->
+                                <div class="mb-3">
+                                    <label for="harga_{{ item.id }}" class="form-label">Harga</label>
+                                    <input 
+                                        type="number" 
+                                        class="form-control" 
+                                        id="harga_{{ item.id }}" 
+                                        name="harga" 
+                                        value="{{ item.harga }}" 
+                                        required
+                                    >
+                                </div>
+                                <!-- Input Deskripsi -->
+                                <div class="mb-3">
+                                    <label for="deskripsi_{{ item.id }}" class="form-label">Deskripsi</label>
+                                    <textarea 
+                                        class="form-control" 
+                                        id="deskripsi_{{ item.id }}" 
+                                        name="deskripsi" 
+                                        rows="3"
+                                    >{{ item.deskripsi }}</textarea>
+                                </div>
+                                <!-- Tombol Simpan dan Batal -->
+                                <div class="d-flex justify-content-end">
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-secondary me-2" 
+                                        data-bs-dismiss="modal"
+                                    >Batal</button>
+                                    <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Modal untuk informasi barang -->
             <div class="modal fade" id="infoModal{{ item.id }}" tabindex="-1" aria-labelledby="infoModalLabel{{ item.id }}" aria-hidden="true">
                 <div class="modal-dialog">
@@ -100,8 +189,9 @@
         </div>
     </div>
 </div>
+
 <!-- Pagination -->
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-end m-2">
     <nav aria-label="Page navigation">
         <ul class="pagination">
             {% if pagination.has_prev %}

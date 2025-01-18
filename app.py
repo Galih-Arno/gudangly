@@ -122,7 +122,8 @@ def search():
     # items = cur.fetchall()
     cur.close()
     conn.close()
-    return render_template('search_results.html', items=items, pagination=pagination)
+    current_year = datetime.now().year
+    return render_template('search_results.html', items=items, current_year=current_year, pagination=pagination)
 
 @app.route('/delete/<int:item_id>')
 def delete_item(item_id):
